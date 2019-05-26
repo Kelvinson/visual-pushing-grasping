@@ -259,7 +259,7 @@ def main(args):
         if not exit_called: 
 
             # Run forward pass with network to get affordances
-            push_predictions, grasp_predictions, state_feat = trainer.forward(color_heightmap, valid_depth_heightmap, is_volatile=True)
+            push_predictions, grasp_predictions, state_feat = trainer.forward(color_heightmap, valid_depth_heightmap, infer_mode=True)
 
             # Execute best primitive action on robot in another thread
             nonlocal_variables['executing_action'] = True
@@ -343,7 +343,7 @@ def main(args):
                     sample_depth_heightmap = sample_depth_heightmap.astype(np.float32)/100000
 
                     # Compute forward pass with sample
-                    sample_push_predictions, sample_grasp_predictions, sample_state_feat = trainer.forward(sample_color_heightmap, sample_depth_heightmap, is_volatile=True)
+                    sample_push_predictions, sample_grasp_predictions, sample_state_feat = trainer.forward(sample_color_heightmap, sample_depth_heightmap, infer_mode=True)
 
                     # Get labels for sample and backpropagate
                     sample_best_pix_ind = (np.asarray(trainer.executed_action_log)[sample_iteration,1:4]).astype(int)
